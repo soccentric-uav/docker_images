@@ -50,7 +50,11 @@ RUN sudo apt update && apt-get install -y -q \
     python3 \
     u-boot-tools \
     libconfuse-dev \
-    gawk wget git diffstat unzip texinfo gcc build-essential chrpath socat cpio python3 python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint3 xterm python3-subunit mesa-common-dev zstd liblz4-tool \
-    locales-all
+    gawk wget git diffstat \
+    unzip texinfo gcc build-essential \
+    chrpath socat cpio python3 python3-pip python3-pexpect xz-utils \
+    debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa \
+    libsdl1.2-dev pylint3 xterm python3-subunit \
+    mesa-common-dev zstd liblz4-tool
 
 RUN sudo apt install libtinfo5 libtinfo-dev -y
