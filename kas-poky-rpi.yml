@@ -1,0 +1,159 @@
+header:
+  version: 8
+
+machine: zcu102-zynqmp
+distro: petalinux
+target:
+  - core-image-base
+  - core-image-full-cmdline
+  - core-image-minimal
+  - core-image-minimal-initramfs
+  - core-image-minimal-mtdutils
+  - core-image-minimal-dev
+  - core-image-sato
+
+repos:
+  meta-xilinx:
+    url: https://github.com/Xilinx/meta-xilinx
+    path: layers/meta-xilinx
+    refspec: rel-v2022.2
+    layers:
+      meta-microblaze:
+      meta-xilinx-bsp:
+      meta-xilinx-contrib:
+      meta-xilinx-core:
+      meta-xilinx-pynq:
+      meta-xilinx-standalone:
+      meta-xilinx-standalone-experimental:
+
+  meta-openamp:
+    url: https://github.com/Xilinx/meta-openamp
+    path: layers/meta-openamp
+    refspec: rel-v2022.2
+
+  meta-browser:
+    url: https://github.com/Xilinx/meta-browser
+    path: layers/meta-browser
+    refspec: rel-v2022.2
+    layers:
+      meta-chromium:
+      meta-firefox:
+
+  meta-clang:
+    url: https://github.com/Xilinx/meta-clang
+    path: layers/meta-clang
+    refspec: rel-v2022.2
+
+  meta-vitis:
+    url: https://github.com/Xilinx/meta-vitis
+    path: layers/meta-vitis
+    refspec: rel-v2022.2
+
+  meta-python2:
+    url: https://github.com/Xilinx/meta-python2
+    path: layers/meta-python2
+    refspec: rel-v2022.2
+
+  meta-qt5:
+    url: https://github.com/Xilinx/meta-qt5
+    path: layers/meta-qt5
+    refspec: rel-v2022.2
+
+  meta-ros:
+    url: https://github.com/Xilinx/meta-ros
+    path: layers/meta-ros
+    refspec: rel-v2022.2
+    layers:
+      meta-ros1:
+      meta-ros1-melodic:
+      meta-ros1-noetic:
+      meta-ros2:
+      meta-ros2-dashing:
+      meta-ros2-eloquent:
+      meta-ros2-foxy:
+      meta-ros2-galactic:
+      meta-ros2-humble:
+      meta-ros2-rolling:
+      meta-ros-common:
+      meta-ros-python2:
+
+  meta-virtualization:
+    url: https://github.com/Xilinx/meta-virtualization
+    path: layers/meta-virtualization
+    refspec: rel-v2022.2
+
+  meta-openembedded:
+    url: https://github.com/Xilinx/meta-openembedded
+    path: layers/meta-openembedded
+    refspec: rel-v2022.2
+    layers:
+      meta-filesystems:
+      meta-gnome:
+      meta-initramfs:
+      meta-multimedia:
+      meta-networking:
+      meta-oe:
+      meta-perl:
+      meta-python:
+      meta-webserver:
+      meta-xfce:
+
+  meta-petalinux:
+    url: https://github.com/Xilinx/meta-petalinux
+    path: layers/meta-petalinux
+    refspec: rel-v2022.2
+
+  meta-som:
+    url: https://github.com/Xilinx/meta-som
+    path: layers/meta-som
+    refspec: rel-v2022.2
+
+  meta-xilinx-tools:
+    url: https://github.com/Xilinx/meta-xilinx-tools
+    path: layers/meta-xilinx-tools
+    refspec: rel-v2022.2
+
+  poky:
+    url: https://github.com/Xilinx/poky
+    path: layers/poky
+    refspec: rel-v2022.2
+    layers:
+      meta:
+      meta-poky:
+
+bblayers_conf_header:
+  standard: |
+    POKY_BBLAYERS_CONF_VERSION = "2"
+    BBPATH = "${TOPDIR}"
+    BBFILES ?= ""
+
+local_conf_header:
+  standard: |
+    CONF_VERSION = "2"
+    PACKAGE_CLASSES = "package_deb package_rpm"
+    SDKMACHINE = "x86_64"
+    INHERIT += "own-mirrors"
+    SOURCE_MIRROR_URL = "http://example.com/my-source-mirror"
+    BB_GENERATE_MIRROR_TARBALLS = "1"
+    EXTRA_IMAGE_FEATURES += "package-management"
+    USER_CLASSES = "buildstats"
+    PATCHRESOLVE = "noop"
+    USER_CLASSES ?= "buildstats"
+    INHERIT += "buildhistory"
+    LICENSE_FLAGS_WHITELIST = "pmu-rom-native"
+  rpi-specific: |
+    ENABLE_I2C = "1"
+    RPI_EXTRA_CONFIG = "dtoverlay=pi3-disable-bt"
+    ENABLE_UART = "1"
+  debug-tweaks: |
+    EXTRA_IMAGE_FEATURES = "debug-tweaks"
+  diskmon: |
+    BB_DISKMON_DIRS = "\
+        STOPTASKS,${TMPDIR},1G,100K \
+        STOPTASKS,${DL_DIR},1G,100K \
+        STOPTASKS,${SSTATE_DIR},1G,100K \
+        STOPTASKS,/tmp,100M,100K \
+        ABORT,${TMPDIR},100M,1K \
+        ABORT,${DL_DIR},100M,1K \
+        ABORT,${SSTATE_DIR},100M,1K \
+        ABORT,/tmp,10M,1K"
