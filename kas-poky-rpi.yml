@@ -1,7 +1,7 @@
 header:
   version: 8
 
-machine: zcu102-zynqmp
+machine: zcu104-zynqmp
 distro: petalinux
 target:
   - core-image-base
@@ -141,10 +141,7 @@ local_conf_header:
     USER_CLASSES ?= "buildstats"
     INHERIT += "buildhistory"
     LICENSE_FLAGS_WHITELIST = "pmu-rom-native"
-  rpi-specific: |
-    ENABLE_I2C = "1"
-    RPI_EXTRA_CONFIG = "dtoverlay=pi3-disable-bt"
-    ENABLE_UART = "1"
+    IMAGE_INSTALL:remove += "qemu"
   debug-tweaks: |
     EXTRA_IMAGE_FEATURES = "debug-tweaks"
   diskmon: |
